@@ -44,7 +44,7 @@ public class SNMPtestMultipleDevices {
         pdu.setType(PDU.GET);
         pdu.setRequestID(new Integer32(1));
 
-        for (ipN = 65; ipN <= 70; ipN++) {
+        for (ipN = 1; ipN <= 254; ipN++) {
 
             // Create TransportMapping and Listen
             TransportMapping transport = new DefaultUdpTransportMapping();
@@ -57,8 +57,8 @@ public class SNMPtestMultipleDevices {
             comtarget.setCommunity(new OctetString(community));
             comtarget.setVersion(snmpVersion);
             comtarget.setAddress(new UdpAddress(ipAddress + "/" + port));
-            comtarget.setRetries(2);
-            comtarget.setTimeout(1000);
+            comtarget.setRetries(0);
+            comtarget.setTimeout(500);
 
 // Create Snmp object for sending data to Agent
             Snmp snmp = new Snmp(transport);
