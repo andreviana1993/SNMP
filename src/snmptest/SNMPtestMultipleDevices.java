@@ -5,6 +5,10 @@
  */
 package snmptest;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Enumeration;
 import org.snmp4j.CommunityTarget;
 import org.snmp4j.PDU;
 import org.snmp4j.Snmp;
@@ -19,6 +23,9 @@ import org.snmp4j.smi.VariableBinding;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
 
 public class SNMPtestMultipleDevices {
+
+    private static String currentIp;
+    private static String currentHostname;
 
     private static String ipPrefix = "192.168.1.";
 
@@ -36,6 +43,23 @@ public class SNMPtestMultipleDevices {
     private static String community = "public";
 
     public static void main(String[] args) throws Exception {
+
+//        currentIp = Inet4Address.getLocalHost().getHostAddress();
+//        currentHostname = Inet4Address.getLocalHost().getHostName();
+//        
+//        System.out.println(currentHostname + "   " + currentIp);
+//                
+        Enumeration networkInterfaceList = NetworkInterface.getNetworkInterfaces();
+        while (networkInterfaceList.hasMoreElements()) {
+            NetworkInterface networkInterface = (NetworkInterface) networkInterfaceList.nextElement();
+            Enumeration ipList = networkInterface.getInetAddresses();
+            String networkInterfaceNames = networkInterface.getDisplayName();
+            while (ipList.hasMoreElements()) {
+                InetAddress ip = (InetAddress) ipList.nextElement();
+                System.out.println(networkInterfaceNames +" --> "+ ip.getHostAddress());
+            }
+        }
+
         System.out.println("SNMP GET Demo");
 
         // Create the PDU object
