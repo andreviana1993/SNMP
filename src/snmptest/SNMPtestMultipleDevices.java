@@ -6,7 +6,9 @@
 package snmptest;
 
 import java.net.Inet4Address;
+import java.net.Inet6Address;
 import java.net.InetAddress;
+import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
 import org.snmp4j.CommunityTarget;
@@ -44,22 +46,25 @@ public class SNMPtestMultipleDevices {
 
     public static void main(String[] args) throws Exception {
 
-//        currentIp = Inet4Address.getLocalHost().getHostAddress();
-//        currentHostname = Inet4Address.getLocalHost().getHostName();
-//        
-//        System.out.println(currentHostname + "   " + currentIp);
-//                
-        Enumeration networkInterfaceList = NetworkInterface.getNetworkInterfaces();
-        while (networkInterfaceList.hasMoreElements()) {
-            NetworkInterface networkInterface = (NetworkInterface) networkInterfaceList.nextElement();
-            Enumeration ipList = networkInterface.getInetAddresses();
-            String networkInterfaceNames = networkInterface.getDisplayName();
-            while (ipList.hasMoreElements()) {
-                InetAddress ip = (InetAddress) ipList.nextElement();
-                System.out.println(networkInterfaceNames +" --> "+ ip.getHostAddress());
-            }
+        int i;
+        NetworkInterface networkInterface = NetworkInterface.getByName("wlan0");
+        System.out.println("Number of Interface Adresses:" + networkInterface.getInterfaceAddresses().size());
+        System.out.println("Searching for an IPv4 Address...");
+        for (i=0; i< networkInterface.getInterfaceAddresses().size();){
+            System.out.println("Interface Address #"+i);
+            System.out.println(networkInterface.getDisplayName() + " --> "
+                +networkInterface.getInterfaceAddresses().get(i).getAddress() + "/"
+                +networkInterface.getInterfaceAddresses().get(i).getNetworkPrefixLength());
+            if (networkInterface.getInterfaceAddresses().get(i).getAddress().getClass() == Inet6Address.class){
+                i++;
+                System.out.println("Found an IPv6 Address. Skipping to the next Interface Address...");
+            } else if (networkInterface.getInterfaceAddresses().get(i).getAddress().getClass() == Inet4Address.class){
+                System.out.println("Found an IPv4 Address.");
+                System.out.println("Search was successful. Continuing...");
+                break;
+            }           
         }
-
+        
         System.out.println("SNMP GET Demo");
 
         // Create the PDU object
