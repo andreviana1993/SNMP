@@ -1,4 +1,4 @@
-package snmptest;
+package snmpnetworkbrowser;
 
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -21,7 +21,7 @@ import org.snmp4j.smi.UdpAddress;
 import org.snmp4j.smi.VariableBinding;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
 
-public class SNMPtestMultipleDevices {
+public class SNMPNetworkBrowser {
 
     // <editor-fold defaultstate="collapsed" desc="variable declarations">
     //network related declarations
