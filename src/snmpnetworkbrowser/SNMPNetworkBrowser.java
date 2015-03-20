@@ -183,9 +183,9 @@ public class SNMPNetworkBrowser {
         System.out.println("Found "
                 + reachableIpList.size()
                 + " online devices:");
-        Iterator iter = reachableIpList.iterator();
-        while (iter.hasNext()) {
-            System.out.println(iter.next());
+        Iterator ipListIterator = reachableIpList.iterator();
+        while (ipListIterator.hasNext()) {
+            System.out.println(ipListIterator.next());
         }
     }
 }
